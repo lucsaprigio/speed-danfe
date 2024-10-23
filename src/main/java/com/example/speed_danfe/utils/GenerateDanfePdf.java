@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRXmlDataSource;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import org.w3c.dom.Document;
 
@@ -24,7 +21,8 @@ public class GenerateDanfePdf {
                 throw new FileNotFoundException("Arquivo danfe.jrxml não encontrado.");
             }
 
-            JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
+            JasperReport jasperReport = JasperCompileManager
+                    .compileReport("C:\\www\\speed-danfe\\src\\main\\resources\\jasper_nfe\\danfe.jrxml");
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 
