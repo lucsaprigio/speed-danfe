@@ -12,7 +12,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import java.io.ByteArrayInputStream;
 
-import org.apache.catalina.connector.Response;
 import org.w3c.dom.Document;
 
 import com.example.speed_danfe.utils.GenerateDanfePdf;
@@ -21,7 +20,7 @@ import com.example.speed_danfe.utils.GenerateDanfePdf;
 @RequestMapping("/api")
 public class DanfeController {
 
-    @PostMapping(value= "/danfe", consumes = "text/xml")
+    @PostMapping(value = "/danfe", consumes = "text/xml")
     public ResponseEntity<byte[]> gerarDanfe(@RequestBody DanfeDTO xmlRequest) {
         System.out.println(xmlRequest.getXmlContent());
         try {
@@ -51,7 +50,9 @@ public class DanfeController {
         try {
             System.out.println(teste.getXmlContent());
 
-            return ResponseEntity.ok().body(null);
+            var result = teste.getXmlContent();
+
+            return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
