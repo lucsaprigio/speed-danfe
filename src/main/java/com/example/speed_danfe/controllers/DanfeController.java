@@ -1,8 +1,10 @@
 package com.example.speed_danfe.controllers;
 
 import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import com.example.speed_danfe.dto.DanfeDTO;
 import com.example.speed_danfe.useCases.FindArchiveUseCase;
@@ -39,7 +42,7 @@ public class DanfeController {
             String xmlContent = new String(arquivo, StandardCharsets.UTF_8);
 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            Document xmlDocument = factory.newDocumentBuilder().parse(new ByteArrayInputStream(xmlContent.getBytes()));
+            Document xmlDocument = factory.newDocumentBuilder().parse(new InputSource((new StringReader(xmlContent))));
 
             var generate = new GenerateDanfePdf();
 
@@ -54,6 +57,7 @@ public class DanfeController {
 
             // return ResponseEntity.ok().body(arquivo);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
