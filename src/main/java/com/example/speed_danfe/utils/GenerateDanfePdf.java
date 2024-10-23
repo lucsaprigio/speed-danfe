@@ -1,5 +1,7 @@
 package com.example.speed_danfe.utils;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,14 +11,26 @@ import org.w3c.dom.Document;
 
 public class GenerateDanfePdf {
 
-    public byte[] gerarDanfePdf(Document xmlDocument) throws JRException {
+    public byte[] gerarDanfePdf(Document xmlDocument) throws JRException, FileNotFoundException {
+        try {
+            Map<String, Object> parameters = new HashMap<>();
 
-        Map<String, Object> parameters = new HashMap<>();
+            InputStream inputStream = getClass().getResourceAsStream("/jasper_nfe/danfe.jrxml");
 
-        JasperReport jasperReport = JasperCompileManager.compileReport("/resources/jasper_nfe/danfe.jrxml");
+            if (inputStream == null) {
+                throw new FileNotFoundException("Arquivo danfe.jrxml não encontrado.");
+            }
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+            JasperReport jasperReport = JasperCompileManager
+                    .compileReport("C:\\www\\speed-danfe\\src\\main\\resources\\jasper_nfe\\danfe.jrxml");
 
-        return JasperExportManager.exportReportToPdf(jasperPrint);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+
+            return JasperExportManager.exportReportToPdf(jasperPrint);
+
+        } catch (JRException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
