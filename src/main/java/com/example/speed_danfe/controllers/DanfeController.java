@@ -1,34 +1,42 @@
 package com.example.speed_danfe.controllers;
 
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.w3c.dom.Document;
 
 import com.example.speed_danfe.dto.DanfeDTO;
 import com.example.speed_danfe.useCases.FindArchiveUseCase;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
-
-import org.w3c.dom.Document;
-
 import com.example.speed_danfe.utils.GenerateDanfePdf;
 
 @RestController
 @RequestMapping("/api")
 public class DanfeController {
 
-    @PostMapping(value = "/danfe", consumes = "text/xml")
-    public ResponseEntity<byte[]> gerarDanfe(@RequestBody DanfeDTO xmlRequest) {
-        System.out.println(xmlRequest.getXmlContent());
+    @Autowired
+    private FindArchiveUseCase findArchiveUseCase;
+
+    @PostMapping("/danfe")
+    public ResponseEntity<byte[]> gerarDanfe(@RequestBody DanfeDTO danfeDTO) {
         try {
-            String xmlContent = xmlRequest.getXmlContent();
+            byte[] arquivo = findArchiveUseCase.execute(danfeDTO.getChave());
+
+            if (arquivo == null || arquivo.length == 0) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            String xmlContent = new String(arquivo, StandardCharsets.UTF_8);
 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             Document xmlDocument = factory.newDocumentBuilder().parse(new ByteArrayInputStream(xmlContent.getBytes()));
@@ -46,18 +54,7 @@ public class DanfeController {
 
             // return ResponseEntity.ok().body(arquivo);
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
-        }
-    }
-
-    @GetMapping("/teste")
-    public ResponseEntity<Object> teste(@RequestBody DanfeDTO teste) {
-        try {
-            System.out.println(teste.getXmlContent());
-
-            return ResponseEntity.ok().body(null);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }
