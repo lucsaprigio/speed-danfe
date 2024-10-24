@@ -16,10 +16,15 @@ public class GenerateDanfePdf {
     public byte[] gerarDanfePdf(Document xmlDocument) throws JRException, FileNotFoundException {
         try {
             Map<String, Object> parameters = new HashMap<>();
-            String pathExpression = "/nfeProc/NFe/infNFe/det";
-            parameters.put("XML_DATA_DOCUMENT", xmlDocument);
 
             InputStream inputStream = getClass().getResourceAsStream("/jasper_nfe/danfe.jrxml");
+            InputStream subReport = getClass().getResourceAsStream("/jasper_nfe/danfe_fatura.jrxml");
+            InputStream logo = getClass().getResourceAsStream("/img/nfe.png");
+
+            String pathExpression = "/nfeProc/NFe/infNFe/det";
+            parameters.put("Logo", logo);
+            parameters.put("SUBREPORT", subReport);
+            parameters.put("XML_DATA_DOCUMENT", xmlDocument);
 
             if (inputStream == null) {
                 throw new FileNotFoundException("Arquivo danfe.jrxml não encontrado.");

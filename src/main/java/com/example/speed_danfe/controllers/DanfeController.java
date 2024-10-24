@@ -2,9 +2,7 @@ package com.example.speed_danfe.controllers;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +37,16 @@ public class DanfeController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
 
-            String xmlContent = new String(arquivo, StandardCharsets.UTF_8);
+            String xmlContent = new String(arquivo);
 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            Document xmlDocument = factory.newDocumentBuilder().parse(new InputSource((new StringReader(xmlContent))));
+            // Document xmlDocument = factory.newDocumentBuilder().parse(new
+            // InputSource((new StringReader(xmlContent))));
+            Document xmlDocument = factory.newDocumentBuilder().parse(new ByteArrayInputStream(xmlContent.getBytes()));
 
             var generate = new GenerateDanfePdf();
+
+            System.out.println(xmlDocument);
 
             byte[] danfePdf = generate.gerarDanfePdf(xmlDocument); // Implemente esta
 
