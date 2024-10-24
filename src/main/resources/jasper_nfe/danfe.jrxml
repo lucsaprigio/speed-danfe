@@ -421,7 +421,7 @@ $F{infAdProd} != null && !$F{infAdProd}.trim().isEmpty() ? $V{count_infAdProd}+1
 					<element kind="textField" uuid="a7c1f6e5-c523-4ba7-969a-aa2cd9aaa0a9" x="2" y="18" width="109" height="16" fontSize="7.0" pattern="¤ #,##0.00" hTextAlign="Right" style="dados">
 						<expression><![CDATA[$F{ValorBase} == null ? 0.00 : Double.parseDouble($F{ValorBase})]]></expression>
 					</element>
-					<element kind="textField" uuid="15484558-38ea-479a-8176-446b1234e4c6" mode="Transparent" x="113" y="18" width="109" height="16" forecolor="#000000" backcolor="#FFFFFF" rotation="None" markup="styled" fontName="Verdana" fontSize="7.0" pdfEncoding="Cp1252" pattern="¤ #,##0.00" blankWhenNull="false" strikeThrough="false" italic="false" underline="false" bold="false" hTextAlign="Right" vTextAlign="Middle" style="dados">
+					<element kind="textField" uuid="15484558-38ea-479a-8176-446b1234e4c6" mode="Transparent" x="113" y="18" width="109" height="16" forecolor="#000000" backcolor="#FFFFFF" rotation="None" markup="styled" fontName="Verdana" fontSize="7.0" pdfEncoding="Cp1252" pattern="¤ #,##0.00" blankWhenNull="false" italic="false" underline="false" bold="false" strikeThrough="false" hTextAlign="Right" vTextAlign="Middle" style="dados">
 						<paragraph lineSpacing="Single"/>
 						<expression><![CDATA[$F{ValorICMS} == null ? 0.00 : Double.parseDouble($F{ValorICMS})]]></expression>
 					</element>
@@ -609,7 +609,7 @@ $F{Trans_CPF}.substring(9,11) : ""]]></expression>
 						<rightPen lineWidth="0.25"/>
 					</box>
 				</element>
-				<element kind="staticText" uuid="65f9cf90-6923-42ee-b48a-9add879becf2" mode="Transparent" x="467" y="9" width="54" height="6" forecolor="#000000" backcolor="#FFFFFF" rotation="None" markup="styled" fontName="Verdana" fontSize="4.0" pdfEncoding="Cp1252" strikeThrough="false" italic="false" underline="false" bold="true" hTextAlign="Center" vTextAlign="Middle" style="campoPequeno">
+				<element kind="staticText" uuid="65f9cf90-6923-42ee-b48a-9add879becf2" mode="Transparent" x="467" y="9" width="54" height="6" forecolor="#000000" backcolor="#FFFFFF" rotation="None" markup="styled" fontName="Verdana" fontSize="4.0" pdfEncoding="Cp1252" italic="false" underline="false" bold="true" strikeThrough="false" hTextAlign="Center" vTextAlign="Middle" style="campoPequeno">
 					<paragraph lineSpacing="Single"/>
 					<text><![CDATA[VALOR]]></text>
 					<box style="campoPequeno">
@@ -779,11 +779,6 @@ $F{Trans_CPF}.substring(9,11) : ""]]></expression>
 			<element kind="image" uuid="16f2433e-cad2-49f7-b098-40e2d3bcf4c0" x="4" y="33" width="60" height="59" scaleImage="FillFrame" onErrorType="Blank" evaluationTime="Report" hImageAlign="Center" vImageAlign="Middle">
 				<expression><![CDATA[$P{Logo}]]></expression>
 			</element>
-			<element kind="component" uuid="6b9407bc-3d64-415f-b45e-85e3f27bc9b3" positionType="Float" stretchType="ContainerHeight" mode="Transparent" x="353" y="10" width="202" height="30">
-				<component kind="barbecue" type="Code128C" drawText="false" checksumRequired="true" barWidth="0" barHeight="0">
-					<codeExpression><![CDATA[$F{Chave}]]></codeExpression>
-				</component>
-			</element>
 			<element kind="staticText" uuid="6f5e0058-17e9-4df3-b5cd-7f59772e8322" x="2" y="97" width="340" height="6" style="campoPequeno">
 				<text><![CDATA[NATUREZA DA OPERAÇÃO]]></text>
 			</element>
@@ -884,6 +879,11 @@ $F{Emi_Telefone}.substring(2,6) + "-" + $F{Emi_Telefone}.substring(6,10)]]></exp
 			<element kind="textField" uuid="94e62645-5088-47f1-ba93-ae6047b045f3" positionType="Float" x="454" y="103" width="109" height="16" fontSize="7.0" textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss" printInFirstWholeBand="true" bold="true" hTextAlign="Left" style="dados">
 				<expression><![CDATA[$F{dhRecbto} != null ? new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse($F{dhRecbto}.substring(0,20)) : null]]></expression>
 			</element>
+			<!-- <element kind="component" uuid="c53969db-0552-49ae-9985-7334bbe32ae0" x="352" y="10" width="203" height="30">
+				<component kind="barbecue" type="Code128" drawText="false" checksumRequired="false">
+					<codeExpression><![CDATA[$F{Chave}]]></codeExpression>
+				</component>
+			</element> -->
 		</element>
 		<element kind="frame" uuid="70ac6141-5980-4338-8daf-cd99b918a2ca" stretchType="ElementGroupHeight" x="0" y="145" width="565" height="82" removeLineWhenBlank="true">
 			<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1 )]]></printWhenExpression>

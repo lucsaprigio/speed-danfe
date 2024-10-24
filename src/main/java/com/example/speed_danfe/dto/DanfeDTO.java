@@ -9,5 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DanfeDTO {
 
+    private String cnpj;
+
     private String chave;
 }

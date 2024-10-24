@@ -31,7 +31,7 @@ public class DanfeController {
     @PostMapping("/danfe")
     public ResponseEntity<byte[]> gerarDanfe(@RequestBody DanfeDTO danfeDTO) {
         try {
-            byte[] arquivo = findArchiveUseCase.execute(danfeDTO.getChave());
+            byte[] arquivo = findArchiveUseCase.execute(danfeDTO.getChave(), danfeDTO.getCnpj());
 
             if (arquivo == null || arquivo.length == 0) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -39,10 +39,9 @@ public class DanfeController {
 
             String xmlContent = new String(arquivo);
 
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            // Document xmlDocument = factory.newDocumentBuilder().parse(new
-            // InputSource((new StringReader(xmlContent))));
-            Document xmlDocument = factory.newDocumentBuilder().parse(new ByteArrayInputStream(xmlContent.getBytes()));
+             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            //Document xmlDocument = factory.newDocumentBuilder().parse(new InputSource((new StringReader(xmlContent))));
+             Document xmlDocument = factory.newDocumentBuilder().parse(new ByteArrayInputStream(xmlContent.getBytes()));
 
             var generate = new GenerateDanfePdf();
 

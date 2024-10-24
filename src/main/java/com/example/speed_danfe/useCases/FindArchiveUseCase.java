@@ -11,7 +11,7 @@ public class FindArchiveUseCase {
     @Autowired
     private DanfeRepository danfeRepository;
 
-    public byte[] execute(String chave) {
-        return danfeRepository.findArquivoByChaveNfe(chave);
+    public byte[] execute(String chave, String cnpj) {
+        return danfeRepository.findArquivoByChaveNfe(chave, cnpj);
     }
 }
